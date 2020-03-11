@@ -1,0 +1,42 @@
+---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: bb-promster
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          name: bb-promster
+      template:
+        metadata:
+          labels:
+            name: bb-promster
+        spec:
+          containers:
+          - name: bb-promster
+            image: labbsr0x/bb-promster:latest
+            env:
+              - name: REGISTRY_ETCD_URL
+                value: http://etcd.default.svc.cluster.local:2379
+              - name: REGISTRY_SERVICE
+                value: example-1
+              - name: REGISTRY_ETCD_BASE
+                value: /metrics-generator 
+              - name: REGISTRY_SERVICE
+                value: example-1
+              - name: REGISTRY_ETCD_BASE
+                value: /metrics-generator
+              - name: BB_PROMSTER_LEVEL
+                value: "1"
+              - name: ETCD_URLS
+                value: http://etcd.default.svc.cluster.local:2379
+              - name: SCRAPE_ETCD_PATH
+                value: /metrics-generator/example-1 # based on how the examples are configured ($REGISTRY_ETCD_BASE/$REGISTRY_SERVICE)
+              - name: REMOTE_WRITE_URL
+                value: http://nginx.default.svc.cluster.local/api/prom/push
+            imagePullPolicy: IfNotPresent
+            ports:
+            - containerPort: 9090
+      
+    

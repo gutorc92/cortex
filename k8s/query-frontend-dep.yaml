@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: query-frontend
-        image: quay.io/cortexproject/cortex
+        image: quay.io/cortexproject/cortex:v0.6.1
         imagePullPolicy: IfNotPresent
         args:
         - -target=query-frontend
@@ -27,3 +27,7 @@ spec:
           name: grpc
         - containerPort: 80
           name: http
+      tolerations:
+        - key: "node.kubernetes.io/unreachable"
+          effect: "NoSchedule"
+          operator: "Exists"

@@ -25,3 +25,5 @@ spec:
         ports:
         - name: clients
           containerPort: 11211
+      imagePullSecrets:
+        - name: dockerhub

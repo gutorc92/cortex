@@ -1,0 +1,30 @@
+---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: metrics-generator
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          name: metrics-generator
+      template:
+        metadata:
+          labels:
+            name: metrics-generator
+        spec:
+          containers:
+          - name: metrics-generator
+            image: abilioesteves/metrics-generator
+            env:
+              - name: REGISTRY_ETCD_URL
+                value: http://etcd.default.svc.cluster.local:2379
+              - name: REGISTRY_SERVICE
+                value: example-1
+              - name: REGISTRY_ETCD_BASE
+                value: /metrics-generator 
+            imagePullPolicy: IfNotPresent
+            ports:
+            - containerPort: 32865
+      
+    
